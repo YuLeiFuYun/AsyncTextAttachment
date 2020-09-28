@@ -14,7 +14,7 @@ public protocol AsyncTextAttachmentDelegate: NSObject {
 }
 
 extension AsyncTextAttachmentDelegate {
-    func textAttachmentWillLoadImage(_ textAttachment: AsyncTextAttachment, task: AttachmentTask) { }
+    public func textAttachmentWillLoadImage(_ textAttachment: AsyncTextAttachment, task: AttachmentTask) { }
 }
 
 public class AsyncTextAttachment: NSTextAttachment {
@@ -119,8 +119,8 @@ public class AsyncTextAttachment: NSTextAttachment {
             let height = originalImageSize.height * factor
             size = CGSize(width: width, height: height)
             
-            DispatchQueue.global().async {
-                if self.imageView.image != nil {
+            if self.imageView.image != nil {
+                DispatchQueue.global().async {
                     Defaults.set(size, forKey: self.imageURL)
                 }
             }
