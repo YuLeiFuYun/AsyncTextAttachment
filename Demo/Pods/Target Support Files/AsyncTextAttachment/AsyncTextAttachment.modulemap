@@ -1,0 +1,6 @@
+framework module AsyncTextAttachment {
+  umbrella header "AsyncTextAttachment-umbrella.h"
+
+  export *
+  module * { export * }
+}

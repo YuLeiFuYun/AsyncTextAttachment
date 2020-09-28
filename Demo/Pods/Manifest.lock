@@ -1,0 +1,43 @@
+PODS:
+  - AsyncTextAttachment (1.0.1):
+    - Kingfisher (~> 5.0)
+    - KingfisherWebP
+  - Kingfisher (5.15.4):
+    - Kingfisher/Core (= 5.15.4)
+  - Kingfisher/Core (5.15.4)
+  - KingfisherWebP (1.0.0):
+    - Kingfisher (~> 5.8)
+    - libwebp (>= 0.5.0)
+  - libwebp (1.1.0):
+    - libwebp/demux (= 1.1.0)
+    - libwebp/mux (= 1.1.0)
+    - libwebp/webp (= 1.1.0)
+  - libwebp/demux (1.1.0):
+    - libwebp/webp
+  - libwebp/mux (1.1.0):
+    - libwebp/demux
+  - libwebp/webp (1.1.0)
+  - SnapKit (5.0.1)
+
+DEPENDENCIES:
+  - AsyncTextAttachment
+  - SnapKit
+
+SPEC REPOS:
+  trunk:
+    - AsyncTextAttachment
+    - Kingfisher
+    - KingfisherWebP
+    - libwebp
+    - SnapKit
+
+SPEC CHECKSUMS:
+  AsyncTextAttachment: 52468d824689de271c245d5651b3b4358afb22e8
+  Kingfisher: 657dc1077e5bbbfff864194c79f29e35b722d062
+  KingfisherWebP: b1ed1dbc5e52547c5bf5f583dd5c46346f97320f
+  libwebp: 946cb3063cea9236285f7e9a8505d806d30e07f3
+  SnapKit: 97b92857e3df3a0c71833cce143274bf6ef8e5eb
+
+PODFILE CHECKSUM: 856eca0cdf8f61dd3bc1e761ce4ae44ddb4997cd
+
+COCOAPODS: 1.9.3
