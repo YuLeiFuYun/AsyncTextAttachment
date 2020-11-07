@@ -58,10 +58,12 @@ class CustomCell: UITableViewCell {
 You can set the maximum image width or display size:
 
 ```swift
-// default is nill
+// default is nil
 AttachmentConfigure.maximumImageWidth = UIScreen.main.bounds.width - 20
-// default is nill
+// default is nil
 // AttachmentConfigure.displaySize = CGSize(width: 300, height: 300)
+// 图片向下偏移量，默认为0
+// AttachmentConfigure.downwardOffset = 5
 ```
 
 Create a property to record the height of the cells:
