@@ -1,6 +1,2 @@
 ${PODS_ROOT}/Target Support Files/Pods-AsyncTextAttachment-Demo/Pods-AsyncTextAttachment-Demo-frameworks.sh
-${BUILT_PRODUCTS_DIR}/AsyncTextAttachment/AsyncTextAttachment.framework
-${BUILT_PRODUCTS_DIR}/Kingfisher/Kingfisher.framework
-${BUILT_PRODUCTS_DIR}/KingfisherWebP/KingfisherWebP.framework
 ${BUILT_PRODUCTS_DIR}/SnapKit/SnapKit.framework
-${BUILT_PRODUCTS_DIR}/libwebp/libwebp.framework
