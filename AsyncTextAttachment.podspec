@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name         = "AsyncTextAttachment"
-  s.version      = "1.0.2"
+  s.version      = "1.1.0"
   s.summary      = "Load web images on UITextView."
   s.homepage     = "https://github.com/YuLeiFuYun/AsyncTextAttachment"
   s.license      = { :type => 'MIT', :file => 'LICENSE' }
