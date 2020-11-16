@@ -8,11 +8,11 @@
 import Kingfisher
 import KingfisherWebP
 
-struct CustomCacheSerializer: CacheSerializer {
-    static let `default` = CustomCacheSerializer()
+public struct CustomCacheSerializer: CacheSerializer {
+    public static let `default` = CustomCacheSerializer()
     private init() {}
     
-    func data(with image: KFCrossPlatformImage, original: Data?) -> Data? {
+    public func data(with image: KFCrossPlatformImage, original: Data?) -> Data? {
         if let original = original, !original.isWebPFormat {
             if original.isAnimated {
                 return original
@@ -24,7 +24,7 @@ struct CustomCacheSerializer: CacheSerializer {
         }
     }
     
-    func image(with data: Data, options: KingfisherParsedOptionsInfo) -> KFCrossPlatformImage? {
+    public func image(with data: Data, options: KingfisherParsedOptionsInfo) -> KFCrossPlatformImage? {
         if !data.isWebPFormat {
             var maxWidth = CGFloat.infinity
             if let width = AttachmentConfigure.maximumImageWidth { maxWidth = width }

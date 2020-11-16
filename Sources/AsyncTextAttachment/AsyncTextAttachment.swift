@@ -22,8 +22,6 @@ public class AsyncTextAttachment: NSTextAttachment {
     
     private let imageView = AnimatedImageView()
     
-    private var imageViewFrame: CGRect = .zero
-    
     private var cachedSize: CGSize?
     
     private var originalImageSize = CGSize(width: 1, height: 1)
@@ -113,7 +111,8 @@ public class AsyncTextAttachment: NSTextAttachment {
         } else if let cachedSize = cachedSize {
             size = cachedSize
         } else {
-            let maxWidth = min(lineFrag.width, originalImageSize.width)
+            let maximumImageWidth = AttachmentConfigure.maximumImageWidth ?? UIScreen.main.bounds.width
+            let maxWidth = min(lineFrag.width, originalImageSize.width, maximumImageWidth)
             let factor = maxWidth / originalImageSize.width
             let width = originalImageSize.width * factor
             let height = originalImageSize.height * factor
@@ -126,15 +125,11 @@ public class AsyncTextAttachment: NSTextAttachment {
             }
         }
         
-        imageViewFrame = CGRect(origin: position, size: size)
+        imageView.Frame = CGRect(origin: position, size: size)
         return CGRect(
             origin: CGPoint(x: 0, y: -AttachmentConfigure.downwardOffset),
             size: size
         )
-    }
-    
-    deinit {
-        imageView.removeFromSuperview()
     }
 }
 
@@ -152,7 +147,6 @@ private extension AsyncTextAttachment {
             
             self.delegate?.textAttachmentDidLoadImage(self, info: self.info)
             if let image = self.imageView.image, image.images != nil {
-                self.imageView.frame = self.imageViewFrame
                 self.perform(#selector(self.display), with: nil, afterDelay: 0, inModes: [.default])
             }
         }

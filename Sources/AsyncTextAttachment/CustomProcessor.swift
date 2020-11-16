@@ -8,12 +8,12 @@
 import Kingfisher
 import KingfisherWebP
 
-struct CustomProcessor: ImageProcessor {
-    var identifier = "come.kingfisher.customprocessor"
-    static let `default` = CustomProcessor()
+public struct CustomProcessor: ImageProcessor {
+    public var identifier = "come.kingfisher.ylcustomprocessor"
+    public static let `default` = CustomProcessor()
     private init() {}
     
-    func process(item: ImageProcessItem, options: KingfisherParsedOptionsInfo) -> KFCrossPlatformImage? {
+    public func process(item: ImageProcessItem, options: KingfisherParsedOptionsInfo) -> KFCrossPlatformImage? {
         switch item {
         case .image(let image):
             return image
