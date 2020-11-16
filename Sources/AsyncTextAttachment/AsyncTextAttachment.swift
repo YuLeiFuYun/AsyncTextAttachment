@@ -125,7 +125,7 @@ public class AsyncTextAttachment: NSTextAttachment {
             }
         }
         
-        imageView.Frame = CGRect(origin: position, size: size)
+        imageView.frame = CGRect(origin: position, size: size)
         return CGRect(
             origin: CGPoint(x: 0, y: -AttachmentConfigure.downwardOffset),
             size: size
