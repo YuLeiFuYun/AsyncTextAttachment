@@ -140,6 +140,7 @@ extension NSMutableAttributedString {
         imageAttachment.delegate = delegate
         imageAttachment.info = info
         append(NSAttributedString(attachment: imageAttachment))
+        addAttribute(.font, value: UIFont.systemFont(ofSize: 18), range: NSRange(location: length - 1, length: 1))
     }
 }
 
