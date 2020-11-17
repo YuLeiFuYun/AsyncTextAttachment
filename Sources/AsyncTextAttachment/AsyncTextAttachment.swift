@@ -131,6 +131,10 @@ public class AsyncTextAttachment: NSTextAttachment {
             size: size
         )
     }
+    
+    deinit {
+        imageView.removeFromSuperview()
+    }
 }
 
 private extension AsyncTextAttachment {
