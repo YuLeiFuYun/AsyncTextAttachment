@@ -1,7 +1,7 @@
 Pod::Spec.new do |s|
   s.name         = "AsyncTextAttachment"
-  s.version      = "1.1.2"
-  s.summary      = "Load web images on UITextView."
+  s.version      = "2.0.0"
+  s.summary      = "Load web images, videos and gist code on UITextView."
   s.homepage     = "https://github.com/YuLeiFuYun/AsyncTextAttachment"
   s.license      = { :type => 'MIT', :file => 'LICENSE' }
   s.author       = { "YuLeiFuYun" => "yuleifuyunn@gmail.com" }
@@ -11,4 +11,6 @@ Pod::Spec.new do |s|
   s.source_files = "Sources/AsyncTextAttachment/*.swift"
   s.dependency 'Kingfisher', '~> 5.0'
   s.dependency 'KingfisherWebP'
+  s.dependency 'Highlightr'
+  s.dependency 'YLRegex'
 end
