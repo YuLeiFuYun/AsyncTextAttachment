@@ -1,24 +1,15 @@
 //
-//  AsyncTextAttachment.swift
-//  AsyncTextAttachment
+//  ImageAttachment.swift
+//  ATA test
 //
-//  Created by 玉垒浮云 on 2020/9/27.
+//  Created by 玉垒浮云 on 2020/11/18.
 //
 
 import Kingfisher
 import KingfisherWebP
 
-public protocol AsyncTextAttachmentDelegate: NSObject {
-    func textAttachmentWillLoadImage(_ textAttachment: AsyncTextAttachment, task: AttachmentTask)
-    func textAttachmentDidLoadImage(_ textAttachment: AsyncTextAttachment, info: Any?)
-}
-
-extension AsyncTextAttachmentDelegate {
-    public func textAttachmentWillLoadImage(_ textAttachment: AsyncTextAttachment, task: AttachmentTask) { }
-}
-
-public class AsyncTextAttachment: NSTextAttachment {
-    public var imageURL: URL
+public class ImageAttachment: NSTextAttachment {
+    private let imageURL: URL
     
     private let imageView = AnimatedImageView()
     
@@ -26,9 +17,37 @@ public class AsyncTextAttachment: NSTextAttachment {
     
     private var originalImageSize = CGSize(width: 1, height: 1)
     
-    public var info: Any?
+    public var indexPath: IndexPath? {
+        didSet {
+            guard
+                let delegate = delegate,
+                let indexPath = indexPath
+            else { return }
+            
+            var urls = [imageURL]
+            if let imageURLs = delegate.imagePrefetchDict[indexPath] {
+                urls = imageURLs + urls
+            }
+            
+            delegate.imagePrefetchDict[indexPath] = urls
+        }
+    }
     
-    public weak var delegate: AsyncTextAttachmentDelegate?
+    public weak var delegate: AttachmentDelegate? {
+        didSet {
+            guard
+                let delegate = delegate,
+                let indexPath = indexPath
+            else { return }
+            
+            var urls = [imageURL]
+            if let imageURLs = delegate.imagePrefetchDict[indexPath] {
+                urls = imageURLs + urls
+            }
+            
+            delegate.imagePrefetchDict[indexPath] = urls
+        }
+    }
     
     public weak var containerView: UITextView?
     
@@ -52,7 +71,7 @@ public class AsyncTextAttachment: NSTextAttachment {
                 .onFailureImage(failueImage)
             ]
             if
-                AttachmentConfigure.displaySize == nil,
+                AttachmentConfigure.Image.displaySize == nil,
                 let size = Defaults.size(forKey: self.imageURL)
             {
                 self.cachedSize = size
@@ -82,7 +101,7 @@ public class AsyncTextAttachment: NSTextAttachment {
                     }
                 )
                 
-                self.delegate?.textAttachmentWillLoadImage(self, task: AttachmentTask(task: task))
+                self.delegate?.textAttachmentWillLoad(self, task: task)
             }
         }
     }
@@ -106,12 +125,12 @@ public class AsyncTextAttachment: NSTextAttachment {
         characterIndex charIndex: Int
     ) -> CGRect {
         var size: CGSize
-        if let displaySize = AttachmentConfigure.displaySize {
+        if let displaySize = AttachmentConfigure.Image.displaySize {
             size = displaySize
         } else if let cachedSize = cachedSize {
             size = cachedSize
         } else {
-            let maximumImageWidth = AttachmentConfigure.maximumImageWidth ?? UIScreen.main.bounds.width
+            let maximumImageWidth = AttachmentConfigure.Image.maxWidth ?? UIScreen.main.bounds.width
             let maxWidth = min(lineFrag.width, originalImageSize.width, maximumImageWidth)
             let factor = maxWidth / originalImageSize.width
             let width = originalImageSize.width * factor
@@ -127,7 +146,7 @@ public class AsyncTextAttachment: NSTextAttachment {
         
         imageView.frame = CGRect(origin: position, size: size)
         return CGRect(
-            origin: CGPoint(x: 0, y: -AttachmentConfigure.downwardOffset),
+            origin: CGPoint(x: 0, y: -AttachmentConfigure.Image.downwardOffset),
             size: size
         )
     }
@@ -137,19 +156,19 @@ public class AsyncTextAttachment: NSTextAttachment {
     }
 }
 
-private extension AsyncTextAttachment {
+private extension ImageAttachment {
     func updateLayoutAndDisplay() {
         guard let textView = containerView else { return }
         
         //  使用 GCD 是为了防止出现滚动时 cell 闪烁
         DispatchQueue.main.async {
-            if AttachmentConfigure.displaySize == nil && self.cachedSize == nil {
+            if AttachmentConfigure.Image.displaySize == nil && self.cachedSize == nil {
                 textView.layoutManager.setNeedsLayout(forAttachment: self)
             } else {
                 textView.layoutManager.setNeedsDisplay(forAttachment: self)
             }
             
-            self.delegate?.textAttachmentDidLoadImage(self, info: self.info)
+            self.delegate?.textAttachmentDidLoad(self, indexPath: self.indexPath)
             if let image = self.imageView.image, image.images != nil {
                 self.perform(#selector(self.display), with: nil, afterDelay: 0, inModes: [.default])
             }

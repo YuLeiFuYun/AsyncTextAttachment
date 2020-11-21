@@ -1,8 +1,8 @@
 //
 //  CustomProcessor.swift
-//  AsyncTextAttachment
+//  ATA test
 //
-//  Created by 玉垒浮云 on 2020/9/27.
+//  Created by 玉垒浮云 on 2020/11/18.
 //
 
 import Kingfisher
@@ -26,7 +26,7 @@ public struct CustomProcessor: ImageProcessor {
                 )
             } else {
                 var maxWidth = CGFloat.infinity
-                if let width = AttachmentConfigure.maximumImageWidth { maxWidth = width }
+                if let width = AttachmentConfigure.Image.maxWidth { maxWidth = width }
                 return data.compressAndDecoder(maxWidth: maxWidth)
             }
         }

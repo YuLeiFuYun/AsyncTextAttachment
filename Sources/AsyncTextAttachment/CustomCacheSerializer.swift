@@ -1,8 +1,8 @@
 //
 //  CustomCacheSerializer.swift
-//  AsyncTextAttachment
+//  ATA test
 //
-//  Created by 玉垒浮云 on 2020/9/27.
+//  Created by 玉垒浮云 on 2020/11/18.
 //
 
 import Kingfisher
@@ -27,7 +27,7 @@ public struct CustomCacheSerializer: CacheSerializer {
     public func image(with data: Data, options: KingfisherParsedOptionsInfo) -> KFCrossPlatformImage? {
         if !data.isWebPFormat {
             var maxWidth = CGFloat.infinity
-            if let width = AttachmentConfigure.maximumImageWidth { maxWidth = width }
+            if let width = AttachmentConfigure.Image.maxWidth { maxWidth = width }
             return data.compressAndDecoder(maxWidth: maxWidth)
         } else {
             return WebPProcessor.default.process(item: .data(data), options: options)
