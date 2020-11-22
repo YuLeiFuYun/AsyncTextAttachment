@@ -1,20 +1,25 @@
-# AsyncTextAttachment
+## 特性
 
-## Requirements
+- [x] 支持多种图片格式，包括 PNG、JPEG、WebP、SVG、Gif、APNG 和 Animated WebP。
+- [x] 支持加载视频，支持的网站包括 YouTube、Vimeo 和哔哩哔哩。
+- [x] 支持加载 Gist code，可对界面进行自定义。
+
+
+
+## 环境要求
 
 * iOS 13.0+
 * Swift 5.1+
 
 
 
-## Installation
+## 安装
 
 ### Cocoapods
 
-To integrate AsyncTextAttachment into your Xcode project using CocoaPods, specify it in your `Podfile`:
+在 `podfile` 配置：
 
 ```ruby
-source 'https://github.com/CocoaPods/Specs.git'
 platform :ios, '13.0'
 use_frameworks!
 
@@ -25,113 +30,25 @@ target 'MyApp' do
 end
 ```
 
-Run `pod install` to build your dependencies.
 
 
+## 使用示例
 
-## Usage
-
-Create a cell that contains a UITextView:
+首先要做如下设置：
 
 ```swift
-class CustomCell: UITableViewCell {
-    lazy var textView: UITextView = {
-        let textView = UITextView()
-        textView.isEditable = false
-        textView.isSelectable = false
-        textView.isScrollEnabled = false
-        textView.textContainer.lineFragmentPadding = 0
-        textView.textContainerInset = .zero
-        return textView
-    }()
-    
-    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
-        super.init(style: style, reuseIdentifier: reuseIdentifier)
-        
-        ...
-        contentView.addSubview(textView)
-    }
-    ...
-}
+// 当前控制器
+AttachmentConfigure.currentController = self
+// 与父视图的边缘间距。默认是 UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
+AttachmentConfigure.edgesInSuperview = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
+// attachment 的宽度
+// 默认是 UIScreen.main.bounds.width - AttachmentConfigure.edgesInSuperview.left - AttachmentConfigure.edgesInSuperview.right
+AttachmentConfigure.attachmentWidth = ...
 ```
 
-You can set the maximum image width or display size:
+#### 图片
 
-```swift
-// default is nil
-AttachmentConfigure.maximumImageWidth = UIScreen.main.bounds.width - 20
-// default is nil
-// AttachmentConfigure.displaySize = CGSize(width: 300, height: 300)
-// 图片向下偏移量，默认为0
-// AttachmentConfigure.downwardOffset = 5
-```
-
-Create a property to record the height of the cells:
-
-```swift
-var cachedHightDict: [IndexPath: CGFloat] = [:]
-```
-
-In `tableView(_:cellForRowAt:)` :
-
-```swift
-func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-    let cell = tableView.dequeueReusableCell(withIdentifier: <Identifier>) as! CustomCell
-        
-    let mAttributedString = NSMutableAttributedString()
-    ...
-    let imageAttachment = AsyncTextAttachment(imageURL: url)
-    // let imageAttachment = AsyncTextAttachment(imageURL: url, placeholder: placeholder, failueImage: failueImage)
-    imageAttachment.containerView = cell.textView
-    imageAttachment.delegate = self
-    imageAttachment.info = indexPath
-    mAttributedString.append(NSAttributedString(attachment: imageAttachment))
-    ...
-    cell.textView.attributedText = mAttributedString
-    return cell
-}
-```
-
-In `tableView(_:heightForRowAt:)` :
-
-```swift
-func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-    return cachedHeightDict[indexPath] ?? 200
-}
-```
-
-Implement the proxy method:
-
-```swift
-extension ViewController: AsyncTextAttachmentDelegate {
-    // optional
-    func textAttachmentWillLoadImage(_ textAttachment: AsyncTextAttachment, task: AttachmentTask) {
-        ...
-    }
-    
-    func textAttachmentDidLoadImage(_ textAttachment: AsyncTextAttachment, info: Any?) {
-        guard
-            let indexPath = info as? IndexPath,
-            let cell = tableView.cellForRow(at: indexPath) as? CustomCell
-        else { return }
-        
-        cachedHeightDict[indexPath] = cell.textView.intrinsicContentSize.height + <Top and bottom margins>
-        tableView.beginUpdates()
-        tableView.endUpdates()
-    }
-}
-```
-
-If you want to prefetch the data:
-
-```swift
-extension ViewController: UITableViewDataSourcePrefetching {
-    func tableView(_ tableView: UITableView, prefetchRowsAt indexPaths: [IndexPath]) {
-        let urls = ...
-        AttachmentPrefetcher(urls: urls).star()
-    }
-}
-```
+待完善……
 
 
 
