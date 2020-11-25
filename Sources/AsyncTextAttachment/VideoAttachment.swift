@@ -13,7 +13,7 @@ public class VideooAttachment: NSTextAttachment {
     
     private let webView = WKWebView()
     
-    init(url: String) {
+    public init(url: String) {
         super.init(data: nil, ofType: nil)
         
         guard let destination = url.destionation.flatMap(URL.init) else { return }

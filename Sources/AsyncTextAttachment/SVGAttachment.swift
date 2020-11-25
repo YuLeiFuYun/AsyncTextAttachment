@@ -16,7 +16,7 @@ public class SVGAttachment: NSTextAttachment {
     private let webView = WKWebView()
     private var webViewSize = CGSize(width: 20, height: 20)
     
-    init(svgURL: String, link: String? = nil) {
+    public init(svgURL: String, link: String? = nil) {
         super.init(data: nil, ofType: nil)
         
         webView.navigationDelegate = self

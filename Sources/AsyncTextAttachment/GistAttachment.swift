@@ -47,7 +47,7 @@ public class GistAttachment: NSTextAttachment {
     private var contentView = UIView()
     private let url: String
     
-    init(url: String) {
+    public init(url: String) {
         self.url = url
         super.init(data: nil, ofType: nil)
         
